@@ -95,6 +95,7 @@ S3Bucket.prototype.get = function (ctx, next) {
 
     params = Object.assign(params, ctx.query);
     delete params.returnFormat;
+    delete params.signedUrl;
 
     this.s3.getSignedUrl('getObject', params, function(err, url){
         if (err) {
@@ -132,6 +133,8 @@ S3Bucket.prototype.put = function (ctx, next) {
         delete ctx.query.Key;
     }
 
+    delete params.signedUrl;
+    
     params = Object.assign(params, ctx.query);
 
     this.s3.getSignedUrl('putObject', params, ctx.done);

@@ -87,13 +87,14 @@ S3Bucket.prototype.get = function (ctx, next) {
         Key: s3Key,
         Expires: ctx.query.Expires,
     };
-    
+
     if (ctx.query) {
         delete ctx.query.Bucket;
         delete ctx.query.Key;
     }
 
     params = Object.assign(params, ctx.query);
+    delete params.returnFormat;
 
     this.s3.getSignedUrl('getObject', params, function(err, url){
         if (err) {

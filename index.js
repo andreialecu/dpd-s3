@@ -133,9 +133,9 @@ S3Bucket.prototype.put = function (ctx, next) {
         delete ctx.query.Key;
     }
 
-    delete params.signedUrl;
-    
     params = Object.assign(params, ctx.query);
+    
+    delete params.signedUrl;
 
     this.s3.getSignedUrl('putObject', params, ctx.done);
 }

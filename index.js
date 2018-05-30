@@ -87,6 +87,13 @@ S3Bucket.prototype.get = function (ctx, next) {
         Key: s3Key,
         Expires: ctx.query.Expires,
     };
+    
+    if (ctx.query) {
+        delete ctx.query.Bucket;
+        delete ctx.query.Key;
+    }
+
+    params = Object.assign(params, ctx.query);
 
     this.s3.getSignedUrl('getObject', params, function(err, url){
         if (err) {
@@ -118,6 +125,13 @@ S3Bucket.prototype.put = function (ctx, next) {
     if (ctx.query.ContentLength) {
         params.ContentLength = ctx.query.ContentLength;
     }
+
+    if (ctx.query) {
+        delete ctx.query.Bucket;
+        delete ctx.query.Key;
+    }
+
+    params = Object.assign(params, ctx.query);
 
     this.s3.getSignedUrl('putObject', params, ctx.done);
 }
